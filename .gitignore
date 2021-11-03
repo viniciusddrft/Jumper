@@ -22,3 +22,7 @@ AdMobAddon.sln
 
 android/
 ios/
+
+.gitignore
+debug.keystore
+
