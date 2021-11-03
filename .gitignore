@@ -1,9 +1,24 @@
-__pycache__
-*.pyc
-.DS_Store
-*~
-.idea
+# Ignore test files
+default_env.tres
+icon.png
+icon.png.import
+project.godot
+.DS_STORE
+
+!addons/admob/icon.png
+
+# Godot-specific ignores
 .import/
-logs/
-apikey.properties
+export.cfg
+export_presets.cfg
+
+# Mono-specific ignores
+.mono/
+mono_crash*.json
+data_*/
+AdMobAddon.csproj
+AdMobAddon.sln
+
+
 android/
+ios/

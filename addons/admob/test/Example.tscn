@@ -1,0 +1,318 @@
+[gd_scene load_steps=9 format=2]
+
+[ext_resource path="res://addons/admob/test/Example.gd" type="Script" id=1]
+[ext_resource path="res://addons/admob/assets/icon-500.png" type="Texture" id=2]
+[ext_resource path="res://addons/admob/assets/poing.jpeg" type="Texture" id=3]
+[ext_resource path="res://addons/admob/assets/music.ogg" type="AudioStream" id=4]
+
+[sub_resource type="StyleBoxFlat" id=1]
+bg_color = Color( 0.36377, 0.23226, 0.0795746, 1 )
+
+[sub_resource type="StyleBoxEmpty" id=2]
+
+[sub_resource type="Theme" id=3]
+TabContainer/styles/panel = SubResource( 2 )
+
+[sub_resource type="StyleBoxFlat" id=4]
+bg_color = Color( 0, 0, 0, 1 )
+
+[node name="Example" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="Background" type="ColorRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 1, 0.541176, 0, 1 )
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="Poing" type="TextureRect" parent="Background"]
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -100.0
+margin_top = -100.0
+texture = ExtResource( 3 )
+expand = true
+stretch_mode = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AdMob" type="TextureRect" parent="Background"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -256.0
+margin_top = -256.0
+margin_right = 256.0
+margin_bottom = 256.0
+texture = ExtResource( 2 )
+stretch_mode = 6
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Advice" type="RichTextLabel" parent="Background"]
+anchor_top = 0.0933333
+anchor_right = 1.0
+anchor_bottom = 0.402222
+custom_styles/normal = SubResource( 1 )
+bbcode_enabled = true
+bbcode_text = "[wave]"
+scroll_following = true
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="TabContainer" type="TabContainer" parent="Background"]
+anchor_left = 0.145
+anchor_top = 0.546667
+anchor_right = 0.855
+anchor_bottom = 0.773333
+theme = SubResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="AdFormats" type="Tabs" parent="Background/TabContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = 24.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Background/TabContainer/AdFormats"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+alignment = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Banner" type="HBoxContainer" parent="Background/TabContainer/AdFormats/VBoxContainer"]
+margin_top = 31.0
+margin_right = 355.0
+margin_bottom = 51.0
+size_flags_vertical = 0
+alignment = 1
+
+[node name="EnableBanner" type="Button" parent="Background/TabContainer/AdFormats/VBoxContainer/Banner"]
+margin_right = 175.0
+margin_bottom = 20.0
+size_flags_horizontal = 3
+disabled = true
+text = "ENABLE BANNER"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="DisableBanner" type="Button" parent="Background/TabContainer/AdFormats/VBoxContainer/Banner"]
+margin_left = 179.0
+margin_right = 355.0
+margin_bottom = 20.0
+size_flags_horizontal = 3
+disabled = true
+text = "DISABLE BANNER"
+
+[node name="Banner2" type="HBoxContainer" parent="Background/TabContainer/AdFormats/VBoxContainer"]
+margin_top = 55.0
+margin_right = 355.0
+margin_bottom = 75.0
+size_flags_vertical = 0
+alignment = 1
+
+[node name="ShowBanner" type="Button" parent="Background/TabContainer/AdFormats/VBoxContainer/Banner2"]
+margin_right = 175.0
+margin_bottom = 20.0
+size_flags_horizontal = 3
+disabled = true
+text = "SHOW BANNER"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HideBanner" type="Button" parent="Background/TabContainer/AdFormats/VBoxContainer/Banner2"]
+margin_left = 179.0
+margin_right = 355.0
+margin_bottom = 20.0
+size_flags_horizontal = 3
+disabled = true
+text = "HIDE BANNER"
+
+[node name="Interstitial" type="Button" parent="Background/TabContainer/AdFormats/VBoxContainer"]
+margin_top = 79.0
+margin_right = 355.0
+margin_bottom = 99.0
+disabled = true
+text = "INTERSTITIAL"
+
+[node name="Rewarded" type="Button" parent="Background/TabContainer/AdFormats/VBoxContainer"]
+margin_top = 103.0
+margin_right = 355.0
+margin_bottom = 123.0
+disabled = true
+text = "REWARDED"
+
+[node name="RewardedInterstitial" type="Button" parent="Background/TabContainer/AdFormats/VBoxContainer"]
+margin_top = 127.0
+margin_right = 355.0
+margin_bottom = 147.0
+disabled = true
+text = "REWARDED INTERSTITIAL"
+
+[node name="Banner" type="Tabs" parent="Background/TabContainer"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = 24.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Background/TabContainer/Banner"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+alignment = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Control" type="Control" parent="Background/TabContainer/Banner/VBoxContainer"]
+margin_top = 68.0
+margin_right = 355.0
+margin_bottom = 78.0
+rect_min_size = Vector2( 0, 10 )
+
+[node name="Position" type="CheckBox" parent="Background/TabContainer/Banner/VBoxContainer"]
+margin_top = 82.0
+margin_right = 355.0
+margin_bottom = 98.0
+custom_styles/hover = SubResource( 4 )
+custom_styles/pressed = SubResource( 4 )
+custom_styles/normal = SubResource( 4 )
+pressed = true
+text = "Position on TOP"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="BannerSizes" type="ItemList" parent="Background/TabContainer/Banner/VBoxContainer"]
+margin_top = 102.0
+margin_right = 355.0
+margin_bottom = 111.0
+auto_height = true
+same_column_width = true
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="UMP" type="Tabs" parent="Background/TabContainer"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = 24.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Background/TabContainer/UMP"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+alignment = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="RequestUserConsent" type="Button" parent="Background/TabContainer/UMP/VBoxContainer"]
+margin_top = 67.0
+margin_right = 355.0
+margin_bottom = 87.0
+disabled = true
+text = "REQUEST USER CONSENT"
+
+[node name="ResetConsentState" type="Button" parent="Background/TabContainer/UMP/VBoxContainer"]
+margin_top = 91.0
+margin_right = 355.0
+margin_bottom = 111.0
+disabled = true
+text = "RESET CONSENT STATE"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="General" type="Tabs" parent="Background/TabContainer"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = 24.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Background/TabContainer/General"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+alignment = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="IsInitialized" type="Button" parent="Background/TabContainer/General/VBoxContainer"]
+margin_top = 31.0
+margin_right = 355.0
+margin_bottom = 51.0
+text = "is_initialized()"
+
+[node name="IsBannerLoaded" type="Button" parent="Background/TabContainer/General/VBoxContainer"]
+margin_top = 55.0
+margin_right = 355.0
+margin_bottom = 75.0
+text = "is_banner_loaded()"
+
+[node name="IsInterstitialLoaded" type="Button" parent="Background/TabContainer/General/VBoxContainer"]
+margin_top = 79.0
+margin_right = 355.0
+margin_bottom = 99.0
+text = "is_interstitial_loaded()"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="IsRewardedLoaded" type="Button" parent="Background/TabContainer/General/VBoxContainer"]
+margin_top = 103.0
+margin_right = 355.0
+margin_bottom = 123.0
+text = "is_rewarded_loaded()"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="IsRewardedInterstitialLoaded" type="Button" parent="Background/TabContainer/General/VBoxContainer"]
+margin_top = 127.0
+margin_right = 355.0
+margin_bottom = 147.0
+text = "is_rewarded_interstitial_loaded()"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Music" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 4 )
+autoplay = true
+
+[connection signal="pressed" from="Background/TabContainer/AdFormats/VBoxContainer/Banner/EnableBanner" to="." method="_on_EnableBanner_pressed"]
+[connection signal="pressed" from="Background/TabContainer/AdFormats/VBoxContainer/Banner/DisableBanner" to="." method="_on_DisableBanner_pressed"]
+[connection signal="pressed" from="Background/TabContainer/AdFormats/VBoxContainer/Banner2/ShowBanner" to="." method="_on_ShowBanner_pressed"]
+[connection signal="pressed" from="Background/TabContainer/AdFormats/VBoxContainer/Banner2/HideBanner" to="." method="_on_HideBanner_pressed"]
+[connection signal="pressed" from="Background/TabContainer/AdFormats/VBoxContainer/Interstitial" to="." method="_on_Interstitial_pressed"]
+[connection signal="pressed" from="Background/TabContainer/AdFormats/VBoxContainer/Rewarded" to="." method="_on_Rewarded_pressed"]
+[connection signal="pressed" from="Background/TabContainer/AdFormats/VBoxContainer/RewardedInterstitial" to="." method="_on_RewardedInterstitial_pressed"]
+[connection signal="pressed" from="Background/TabContainer/Banner/VBoxContainer/Position" to="." method="_on_Position_pressed"]
+[connection signal="item_selected" from="Background/TabContainer/Banner/VBoxContainer/BannerSizes" to="." method="_on_BannerSizes_item_selected"]
+[connection signal="pressed" from="Background/TabContainer/UMP/VBoxContainer/RequestUserConsent" to="." method="_on_RequestUserConsent_pressed"]
+[connection signal="pressed" from="Background/TabContainer/UMP/VBoxContainer/ResetConsentState" to="." method="_on_ResetConsentState_pressed"]
+[connection signal="pressed" from="Background/TabContainer/General/VBoxContainer/IsInitialized" to="." method="_on_IsInitialized_pressed"]
+[connection signal="pressed" from="Background/TabContainer/General/VBoxContainer/IsBannerLoaded" to="." method="_on_IsBannerLoaded_pressed"]
+[connection signal="pressed" from="Background/TabContainer/General/VBoxContainer/IsInterstitialLoaded" to="." method="_on_IsInterstitialLoaded_pressed"]
+[connection signal="pressed" from="Background/TabContainer/General/VBoxContainer/IsRewardedLoaded" to="." method="_on_IsRewardedLoaded_pressed"]
+[connection signal="pressed" from="Background/TabContainer/General/VBoxContainer/IsRewardedInterstitialLoaded" to="." method="_on_IsRewardedInterstitialLoaded_pressed"]

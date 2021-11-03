@@ -8,52 +8,103 @@
 
 config_version=4
 
-_global_script_classes=[ {
-"base": "Node",
-"class": "Admob",
-"language": "GDScript",
-"path": "res://admob-lib/admob.gd"
-} ]
-_global_script_class_icons={
-"Admob": "res://admob-lib/icon.png"
+[admob]
+
+config={
+"banner": {
+"position": 0,
+"show_instantly": true,
+"size": "ADAPTIVE",
+"unit_ids": {
+"Android": {
+"demo": "ca-app-pub-3940256099942544/6300978111",
+"gameBanner": "ca-app-pub-3443422868739312/1567736189"
+},
+"iOS": {
+"demo": "ca-app-pub-3940256099942544/2934735716"
 }
-
-[android]
-
-modules="org/godotengine/godot/GodotAdMob"
+}
+},
+"general": {
+"is_enabled": true,
+"is_for_child_directed_treatment": false,
+"is_test_europe_user_consent": false,
+"max_ad_content_rating": "PG"
+},
+"interstitial": {
+"unit_ids": {
+"Android": {
+"demo": "ca-app-pub-3940256099942544/1033173712",
+"gameIntersticial": "ca-app-pub-3443422868739312/6903823343"
+},
+"iOS": {
+"demo": "ca-app-pub-3940256099942544/4411468910"
+}
+}
+},
+"rewarded": {
+"unit_ids": {
+"Android": {
+"demo": "ca-app-pub-3940256099942544/5224354917"
+},
+"iOS": {
+"demo": "ca-app-pub-3940256099942544/1712485313"
+}
+}
+},
+"rewarded_interstitial": {
+"unit_ids": {
+"Android": {
+"demo": "ca-app-pub-3940256099942544/5354046379"
+},
+"iOS": {
+"demo": "ca-app-pub-3940256099942544/6978759866"
+}
+}
+}
+}
 
 [application]
 
-config/name="circle_jump"
+config/name="projectGame"
 run/main_scene="res://Main.tscn"
-config/icon="res://cj_icon_64.png"
-config/quit_on_go_back=false
+config/icon="res://icon.png"
 
 [autoload]
 
-settings="*res://settings.gd"
+Settings="*res://settings.gd"
+MobileAds="*res://addons/admob/src/singletons/MobileAds.gd"
 
 [debug]
 
-gdscript/warnings/unused_argument=false
+settings/stdout/print_fps=true
 
 [display]
 
 window/size/width=480
 window/size/height=854
+window/size/fullscreen=true
 window/handheld/orientation="portrait"
 window/stretch/mode="2d"
 window/stretch/aspect="keep"
+
+[editor_plugins]
+
+enabled=PoolStringArray( "res://addons/admob/plugin.cfg" )
+
+[global]
+
+font=false
 
 [input_devices]
 
 pointing/emulate_touch_from_mouse=true
 
+[physics]
+
+common/enable_pause_aware_picking=true
+
 [rendering]
 
-quality/driver/driver_name="GLES2"
-quality/intended_usage/framebuffer_allocation=0
-quality/intended_usage/framebuffer_allocation.mobile=0
-vram_compression/import_etc=true
+environment/default_clear_color=Color( 0.301961, 0.301961, 0.301961, 1 )
 environment/default_environment="res://default_env.tres"
-quality/dynamic_fonts/use_oversampling=false
