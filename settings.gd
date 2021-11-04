@@ -5,7 +5,7 @@ var settings_file = "user://settings.save"
 var enable_sound = true
 var enable_music = true
 
-var circles_per_level = 5
+var circles_per_level = 3
 
 func _ready():
 	load_settings()

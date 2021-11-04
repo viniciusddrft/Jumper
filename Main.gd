@@ -56,8 +56,11 @@ func _on_Jumper_captured(object):
 	self.score += 1 * bonus
 	self.bonus += 1
 	num_circles += 1
-	if num_circles > 0 and num_circles % Settings.circles_per_level == 0:
+	if num_circles == Settings.circles_per_level:
+		num_circles = 0
 		level +=1
+		if level == 10:
+			Settings.circles_per_level = 5
 		$HUD.show_message("Leve %s" % str(level))
 	
 func set_score(value):

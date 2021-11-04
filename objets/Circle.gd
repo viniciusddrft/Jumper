@@ -27,7 +27,7 @@ func init(_position, level=1):
 		move_speed = max(2.5 - ceil(level/5) * 0.25, 0.75)
 	var small_chance = min(0.9, max(0,(level-10)/20.0))
 	if randf() < small_chance:
-		radius = max(50, radius - level * range(0.75, 1.25))
+		radius = max(50, radius - level * rand_range(0.75, 1.25))
 	$Sprite.material = $Sprite.material.duplicate()
 	$SpriteEffect.material = $Sprite.material
 	$CollisionShape2D.shape = $CollisionShape2D.shape.duplicate()

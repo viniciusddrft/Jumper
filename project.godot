@@ -68,6 +68,8 @@ config={
 
 config/name="projectGame"
 run/main_scene="res://Main.tscn"
+boot_splash/image="res://ic_launcher/res/mipmap-xxxhdpi/ic_launcher_adaptive_fore.png"
+boot_splash/bg_color=Color( 0.12549, 0.12549, 0.12549, 1 )
 config/icon="res://icon.png"
 
 [autoload]
