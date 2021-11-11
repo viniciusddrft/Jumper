@@ -18,9 +18,9 @@ func _ready():
 	$Background/ColorRect.color = Settings.theme["background"]
 	
 func new_game():
-	new_highscore = false
-	MobileAds.load_interstitial()
 	MobileAds.hide_banner()
+	MobileAds.load_interstitial()
+	new_highscore = false
 	self.score = 0
 	self.bonus = 0
 	num_circles = 0
@@ -81,8 +81,7 @@ func _on_Jumper_died():
 	if Settings.enable_music:
 		fade_music()
 	MobileAds.show_interstitial()
-	if 	MobileAds.load_interstitial():
-		print('Ad mostrado')
+
 
 func load_score():
 	var f = File.new()

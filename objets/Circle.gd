@@ -11,7 +11,7 @@ var radius = 120
 var rotation_speed = PI
 var mode = MODES.STATIC
 var move_range = 0
-var move_speed = 2.0
+var move_speed = 3.0
 var num_orbits = 3
 var current_orbits = 0
 var orbit_start = null
@@ -21,6 +21,14 @@ func init(_position, level=1):
 	var _mode = Settings.rand_weighted([10, level-1])
 	set_mode(_mode)
 	position = _position
+	if level >= 15 and level < 25:
+		rotation_speed = 3.5
+	if level >= 20 and level < 30:
+		radius = 110
+	if level >= 25:
+		rotation_speed = 4
+	if level >= 30:
+		radius = 100
 	var move_chance = clamp(level -10,0,9)/10.0
 	if randf() < move_chance:
 		move_range =  max(25, 100 * rand_range(0.75, 1.25) * move_chance) * pow(-1, randi() % 2)

@@ -28,13 +28,19 @@ func _on_button_pressed(button):
 		$Click.play()
 	match button.name:
 		"Home":
-			change_screen($TitleScreen)
+			MobileAds.load_banner()
+			MobileAds.show_banner()
+			change_screen($TitleScreen)	
 		"Play":
 			change_screen(null)
 			yield(get_tree().create_timer(0.5),"timeout")
 			emit_signal("start_game")
 		"Settings":
+			MobileAds.hide_banner()
 			change_screen($SettingsScreen)
+		"About":
+			MobileAds.hide_banner()
+			change_screen($AboutScreen)
 		"Sound":
 			Settings.enable_sound = !Settings.enable_sound
 			button.texture_normal = sound_buttons[Settings.enable_sound]

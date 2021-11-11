@@ -105,9 +105,7 @@ tracks/1/keys = {
 size = 64
 font_data = ExtResource( 4 )
 
-[node name="Circle" type="Area2D" groups=[
-"circles",
-]]
+[node name="Circle" type="Area2D" groups=["circles"]]
 script = ExtResource( 3 )
 
 [node name="Sprite" type="Sprite" parent="."]
