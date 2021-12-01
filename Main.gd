@@ -80,8 +80,9 @@ func _on_Jumper_died():
 	$HUD.hide()
 	if Settings.enable_music:
 		fade_music()
-	MobileAds.show_interstitial()
-
+	var adchance = rand_range(0,1)
+	if adchance >=0.3:
+		MobileAds.show_interstitial()
 
 func load_score():
 	var f = File.new()
