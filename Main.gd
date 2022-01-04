@@ -81,9 +81,9 @@ func _on_Jumper_died():
 	if Settings.enable_music:
 		fade_music()
 	var adchance = rand_range(0,1)
-	if adchance >=0.3:
+	if adchance <= 0.35:
 		MobileAds.show_interstitial()
-
+		
 func load_score():
 	var f = File.new()
 	if f.file_exists(Settings.score_file):
