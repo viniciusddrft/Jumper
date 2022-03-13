@@ -35,8 +35,8 @@ func _on_button_pressed(button):
 			change_screen(null)
 			yield(get_tree().create_timer(0.5),"timeout")
 			emit_signal("start_game")
+			MobileAds.destroy_banner()
 		"Settings":
-			MobileAds.hide_banner()
 			change_screen($SettingsScreen)
 		"About":
 			MobileAds.hide_banner()

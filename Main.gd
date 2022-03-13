@@ -18,7 +18,6 @@ func _ready():
 	$Background/ColorRect.color = Settings.theme["background"]
 	
 func new_game():
-	MobileAds.hide_banner()
 	MobileAds.load_interstitial()
 	new_highscore = false
 	self.score = 0

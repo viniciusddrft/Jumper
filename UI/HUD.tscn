@@ -18,7 +18,7 @@ font_data = ExtResource( 1 )
 [sub_resource type="Animation" id=9]
 length = 0.001
 tracks/0/type = "value"
-tracks/0/path = NodePath("HBoxContainer/Score:modulate")
+tracks/0/path = NodePath("VBoxContainer/HBoxContainer/Score:modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -30,7 +30,7 @@ tracks/0/keys = {
 "values": [ Color( 1, 1, 1, 1 ) ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("HBoxContainer/Score:rect_scale")
+tracks/1/path = NodePath("VBoxContainer/HBoxContainer/Score:rect_scale")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
@@ -47,7 +47,7 @@ resource_name = "score"
 length = 0.25
 step = 0.01
 tracks/0/type = "value"
-tracks/0/path = NodePath("HBoxContainer/Score:modulate")
+tracks/0/path = NodePath("VBoxContainer/HBoxContainer/Score:modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -59,7 +59,7 @@ tracks/0/keys = {
 "values": [ Color( 1, 1, 1, 1 ), Color( 1, 0, 0, 1 ), Color( 1, 1, 1, 1 ) ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("HBoxContainer/Score:rect_scale")
+tracks/1/path = NodePath("VBoxContainer/HBoxContainer/Score:rect_scale")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
@@ -116,7 +116,7 @@ resource_name = "bonus"
 length = 0.15
 step = 0.01
 tracks/0/type = "value"
-tracks/0/path = NodePath("HBoxContainer/Bonus:modulate")
+tracks/0/path = NodePath("VBoxContainer/HBoxContainer/Bonus:modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -128,7 +128,7 @@ tracks/0/keys = {
 "values": [ Color( 1, 1, 1, 1 ), Color( 1, 0, 0, 1 ), Color( 1, 1, 1, 1 ) ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("HBoxContainer/Bonus:rect_scale")
+tracks/1/path = NodePath("VBoxContainer/HBoxContainer/Bonus:rect_scale")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
@@ -143,14 +143,13 @@ tracks/1/keys = {
 [node name="HUD" type="CanvasLayer"]
 script = ExtResource( 2 )
 
-[node name="HBoxContainer" type="MarginContainer" parent="."]
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 10.0
-margin_top = -844.0
-margin_right = -10.0
-margin_bottom = -746.0
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+margin_right = 482.0
+margin_bottom = 118.0
+
+[node name="HBoxContainer" type="MarginContainer" parent="VBoxContainer"]
+margin_right = 482.0
+margin_bottom = 118.0
 grow_horizontal = 0
 grow_vertical = 0
 mouse_filter = 2
@@ -158,22 +157,19 @@ custom_constants/margin_right = 20
 custom_constants/margin_top = 20
 custom_constants/margin_left = 20
 custom_constants/margin_bottom = 20
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
-[node name="Bonus" type="Label" parent="HBoxContainer"]
+[node name="Bonus" type="Label" parent="VBoxContainer/HBoxContainer"]
 margin_left = 20.0
 margin_top = 33.0
-margin_right = 440.0
+margin_right = 462.0
 margin_bottom = 85.0
 custom_fonts/font = SubResource( 3 )
 text = "1X"
 
-[node name="Score" type="Label" parent="HBoxContainer"]
+[node name="Score" type="Label" parent="VBoxContainer/HBoxContainer"]
 margin_left = 20.0
 margin_top = 20.0
-margin_right = 440.0
+margin_right = 462.0
 margin_bottom = 98.0
 custom_fonts/font = SubResource( 2 )
 text = "100"
