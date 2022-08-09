@@ -39,7 +39,7 @@ margin_right = 888.0
 margin_bottom = 128.0
 popup_exclusive = true
 window_title = "Alerta!"
-dialog_text = "Download of %s completed!"
+dialog_text = "Download of %s completed! \\n%s"
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -84,7 +84,7 @@ margin_left = 380.0
 margin_right = 780.0
 margin_bottom = 250.0
 rect_min_size = Vector2( 400, 250 )
-window_title = "Abrir um Diretório"
+window_title = "Open a Directory"
 mode = 2
 current_dir = "res://addons/admob/downloads/android"
 current_path = "res://addons/admob/downloads/android/"
@@ -175,7 +175,7 @@ margin_left = 380.0
 margin_right = 780.0
 margin_bottom = 250.0
 rect_min_size = Vector2( 400, 250 )
-window_title = "Abrir um Diretório"
+window_title = "Open a Directory"
 mode = 2
 current_dir = "res://addons/admob/downloads/ios"
 current_path = "res://addons/admob/downloads/ios/"

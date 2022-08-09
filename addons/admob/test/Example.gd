@@ -28,7 +28,6 @@ func _ready() -> void:
 		BannerSizes.add_item(banner_size)
 	if OS.get_name() == "Android" or OS.get_name() == "iOS":
 		BannerPosition.pressed = MobileAds.AdMobSettings.config.banner.position
-		MobileAds.request_user_consent()
 		# warning-ignore:return_value_discarded
 		MobileAds.connect("consent_info_update_failure", self, "_on_MobileAds_consent_info_update_failure")
 		# warning-ignore:return_value_discarded
@@ -62,9 +61,7 @@ func _on_MobileAds_initialization_complete(status : int, adapter_name : String) 
 		MobileAds.load_rewarded()
 		MobileAds.load_rewarded_interstitial()
 		_add_text_Advice_Node("AdMob initialized on GDScript! With parameters:")
-		_add_text_Advice_Node("is_for_child_directed_treatment: " + str(MobileAds.config.general.is_for_child_directed_treatment))
-		_add_text_Advice_Node("is_test_europe_user_consent: " + str(MobileAds.config.general.is_test_europe_user_consent))
-		_add_text_Advice_Node("max_ad_content_rating: " + str(MobileAds.config.general.max_ad_content_rating))
+		_add_text_Advice_Node(JSON.print(MobileAds.config, "\t"))
 		_add_text_Advice_Node("instance_id: " + str(get_instance_id()))
 		EnableBanner.disabled = false
 		BannerPosition.disabled = false
@@ -144,7 +141,8 @@ func _on_MobileAds_user_earned_rewarded(currency : String, amount : int) -> void
 	Advice.bbcode_text += "EARNED " + currency + " with amount: " + str(amount) + "\n"
 
 func _on_MobileAds_consent_info_update_failure(_error_code : int, error_message : String) -> void:
-	_add_text_Advice_Node(error_message)
+	_add_text_Advice_Node("Request Consent from European Users failure: " + error_message)
+	_add_text_Advice_Node("---------------------------------------------------")
 
 func _on_MobileAds_consent_status_changed(status_message : String) -> void:
 	_add_text_Advice_Node(status_message)

@@ -18,12 +18,17 @@ config={
 "unit_ids": {
 "Android": {
 "demo": "ca-app-pub-3940256099942544/6300978111",
-"gameBanner": "ca-app-pub-3443422868739312/1567736189"
+"gameBanner": "ca-app-pub-3443422868739312/1567736189",
+"standard": "ca-app-pub-3940256099942544/6300978111"
 },
 "iOS": {
-"demo": "ca-app-pub-3940256099942544/2934735716"
+"demo": "ca-app-pub-3940256099942544/2934735716",
+"standard": "ca-app-pub-3940256099942544/2934735716"
 }
 }
+},
+"debug": {
+"is_test_europe_user_consent": false
 },
 "general": {
 "is_enabled": true,
@@ -35,30 +40,36 @@ config={
 "unit_ids": {
 "Android": {
 "demo": "ca-app-pub-3940256099942544/1033173712",
-"gameIntersticial": "ca-app-pub-3443422868739312/6903823343"
+"gameIntersticial": "ca-app-pub-3443422868739312/6903823343",
+"standard": "ca-app-pub-3940256099942544/1033173712"
 },
 "iOS": {
-"demo": "ca-app-pub-3940256099942544/4411468910"
+"demo": "ca-app-pub-3940256099942544/4411468910",
+"standard": "ca-app-pub-3940256099942544/4411468910"
 }
 }
 },
 "rewarded": {
 "unit_ids": {
 "Android": {
-"demo": "ca-app-pub-3940256099942544/5224354917"
+"demo": "ca-app-pub-3940256099942544/5224354917",
+"standard": "ca-app-pub-3940256099942544/5224354917"
 },
 "iOS": {
-"demo": "ca-app-pub-3940256099942544/1712485313"
+"demo": "ca-app-pub-3940256099942544/1712485313",
+"standard": "ca-app-pub-3940256099942544/1712485313"
 }
 }
 },
 "rewarded_interstitial": {
 "unit_ids": {
 "Android": {
-"demo": "ca-app-pub-3940256099942544/5354046379"
+"demo": "ca-app-pub-3940256099942544/5354046379",
+"standard": "ca-app-pub-3940256099942544/5354046379"
 },
 "iOS": {
-"demo": "ca-app-pub-3940256099942544/6978759866"
+"demo": "ca-app-pub-3940256099942544/6978759866",
+"standard": "ca-app-pub-3940256099942544/6978759866"
 }
 }
 }
@@ -76,6 +87,7 @@ config/icon="res://icon.png"
 
 Settings="*res://settings.gd"
 MobileAds="*res://addons/admob/src/singletons/MobileAds.gd"
+GooglePlayServices="*res://addons/google_play_services/GooglePlayServices.gd"
 
 [debug]
 
@@ -104,9 +116,12 @@ pointing/emulate_touch_from_mouse=true
 [physics]
 
 common/enable_pause_aware_picking=true
+2d/thread_model=2
 
 [rendering]
 
+quality/intended_usage/framebuffer_allocation=0
+quality/intended_usage/framebuffer_allocation.mobile=0
 quality/subsurface_scattering/quality=2
 environment/default_clear_color=Color( 0.301961, 0.301961, 0.301961, 1 )
 environment/default_environment="res://default_env.tres"

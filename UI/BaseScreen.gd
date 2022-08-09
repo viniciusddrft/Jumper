@@ -15,5 +15,5 @@ func disappear():
 	tween.start()
 
 func _on_TextEdit_meta_clicked(meta):
-	OS.shell_open(meta)
+	return OS.shell_open(meta)
 
