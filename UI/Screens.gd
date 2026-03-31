@@ -16,7 +16,7 @@ func _ready():
 func register_buttons():
 	var buttons = get_tree().get_nodes_in_group("buttons")
 	for button in buttons:
-		button.connect("pressed",self,"_on_button_pressed",[button])
+		button.connect("pressed", Callable(self, "_on_button_pressed").bind(button))
 		match button.name:
 			"Sound":
 				button.texture_normal = sound_buttons[Settings.enable_sound]
@@ -28,18 +28,14 @@ func _on_button_pressed(button):
 		$Click.play()
 	match button.name:
 		"Home":
-			MobileAds.load_banner()
-			MobileAds.show_banner()
 			change_screen($TitleScreen)	
 		"Play":
 			change_screen(null)
-			yield(get_tree().create_timer(0.5),"timeout")
+			await get_tree().create_timer(0.5).timeout
 			emit_signal("start_game")
-			MobileAds.destroy_banner()
 		"Settings":
 			change_screen($SettingsScreen)
 		"About":
-			MobileAds.hide_banner()
 			change_screen($AboutScreen)
 		"Sound":
 			Settings.enable_sound = !Settings.enable_sound
@@ -52,16 +48,12 @@ func _on_button_pressed(button):
 
 func change_screen(new_screen):
 	if current_screen:
-		current_screen.disappear()
-		yield(current_screen.tween, "tween_completed")
+		await current_screen.disappear()
 	current_screen = new_screen
 	if new_screen:
-		current_screen.appear()
-		yield(current_screen.tween, "tween_completed")
+		await current_screen.appear()
 	
 func game_over(score, highscore):
-	MobileAds.load_banner()
-	MobileAds.show_banner()
 	var score_box = $GameOverScreen/MarginContainer/VBoxContainer/Scores
 	score_box.get_node("Score").text = "Score: %s" % score
 	score_box.get_node("Best").text = "Best: %s" % highscore

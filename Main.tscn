@@ -1,33 +1,30 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=6 format=3 uid="uid://bkj15arm3202i"]
 
-[ext_resource path="res://Main.gd" type="Script" id=1]
-[ext_resource path="res://UI/Screens.tscn" type="PackedScene" id=2]
-[ext_resource path="res://UI/HUD.tscn" type="PackedScene" id=3]
-[ext_resource path="res://assets/audio/assets_audio_Music_Light-Puzzles.ogg" type="AudioStream" id=4]
-[ext_resource path="res://UI/Background.tscn" type="PackedScene" id=5]
+[ext_resource type="Script" path="res://Main.gd" id="1"]
+[ext_resource type="PackedScene" path="res://UI/Screens.tscn" id="2"]
+[ext_resource type="PackedScene" path="res://UI/HUD.tscn" id="3"]
+[ext_resource type="AudioStream" uid="uid://bi478myww428q" path="res://assets/audio/assets_audio_Music_Light-Puzzles.ogg" id="4"]
+[ext_resource type="PackedScene" path="res://UI/Background.tscn" id="5"]
 
 [node name="Main" type="Node"]
-script = ExtResource( 1 )
+script = ExtResource("1")
 
-[node name="StartPosition" type="Position2D" parent="."]
-position = Vector2( 240, 740 )
+[node name="StartPosition" type="Marker2D" parent="."]
+position = Vector2(240, 740)
 
 [node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2( 238.11, 631.284 )
-offset = Vector2( 0, -200 )
-current = true
-smoothing_enabled = true
-smoothing_speed = 8.0
+position = Vector2(238.11, 631.284)
+offset = Vector2(0, -200)
+position_smoothing_enabled = true
+position_smoothing_speed = 8.0
 
-[node name="Screens" parent="." instance=ExtResource( 2 )]
+[node name="Screens" parent="." instance=ExtResource("2")]
 
-[node name="HUD" parent="." instance=ExtResource( 3 )]
+[node name="HUD" parent="." instance=ExtResource("3")]
 
 [node name="Music" type="AudioStreamPlayer" parent="."]
-stream = ExtResource( 4 )
+stream = ExtResource("4")
 
-[node name="Background" parent="." instance=ExtResource( 5 )]
-
-[node name="MusicFade" type="Tween" parent="."]
+[node name="Background" parent="." instance=ExtResource("5")]
 
 [connection signal="start_game" from="Screens" to="." method="new_game"]

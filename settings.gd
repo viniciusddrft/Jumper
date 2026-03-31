@@ -49,27 +49,25 @@ var color_schemes = {
 
 var theme = color_schemes["NEON"]
 
-static func rand_weighted(weights):
+func rand_weighted(weights):
 	var sum = 0
 	for weight in weights:
 		sum += weight
-	var num = rand_range(0, sum)
+	var num = randf_range(0, sum)
 	for i in weights.size():
 		if num < weights[i]:
 			return i
 		num -= weights[i]
 
 func save_settings():
-	var file = File.new()
-	file.open(settings_file, File.WRITE)
+	var file = FileAccess.open(settings_file, FileAccess.WRITE)
 	file.store_var(enable_sound)
 	file.store_var(enable_music)
 	file.close()
 	
 func load_settings():
-	var file = File.new()
-	if file.file_exists(settings_file):
-		file.open(settings_file, File.READ)
+	if FileAccess.file_exists(settings_file):
+		var file = FileAccess.open(settings_file, FileAccess.READ)
 		enable_sound = file.get_var()
 		enable_music = file.get_var()
 		file.close()

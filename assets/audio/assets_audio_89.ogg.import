@@ -1,15 +1,19 @@
 [remap]
 
-importer="ogg_vorbis"
-type="AudioStreamOGGVorbis"
-path="res://.import/assets_audio_89.ogg-639b1308f2c5a489e371c036682da5ea.oggstr"
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://yxique7fxq1w"
+path="res://.godot/imported/assets_audio_89.ogg-639b1308f2c5a489e371c036682da5ea.oggvorbisstr"
 
 [deps]
 
 source_file="res://assets/audio/assets_audio_89.ogg"
-dest_files=[ "res://.import/assets_audio_89.ogg-639b1308f2c5a489e371c036682da5ea.oggstr" ]
+dest_files=["res://.godot/imported/assets_audio_89.ogg-639b1308f2c5a489e371c036682da5ea.oggvorbisstr"]
 
 [params]
 
 loop=true
 loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

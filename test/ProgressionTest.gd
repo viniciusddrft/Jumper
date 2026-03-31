@@ -7,7 +7,6 @@ var last_circle_position
 var level_markers = []
 
 func _ready():
-	randomize()
 	last_circle_position = $Camera2D.position
 	level = 0
 	for i in 100:
@@ -15,13 +14,13 @@ func _ready():
 			level += 1
 			level_markers.append(last_circle_position)
 		spawn_circle()
-	update()
+	queue_redraw()
 
 func spawn_circle(_position=null):
-	var circle = Circle.instance()
+	var circle = Circle.instantiate()
 	if !_position:
-		var x = rand_range(-150, 150)
-		var y = rand_range(500, -400)
+		var x = randf_range(-150, 150)
+		var y = randf_range(500, -400)
 		_position = last_circle_position + Vector2(x,y)
 	add_child(circle)
 	circle.init(_position, level)

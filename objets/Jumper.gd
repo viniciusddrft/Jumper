@@ -3,7 +3,7 @@ extends Area2D
 signal captured
 signal died
 
-onready var tail = $Tail/Points
+@onready var tail = $Tail/Points
 
 var speed = Vector2(100,0)
 var jump_speed = 1000
@@ -12,7 +12,7 @@ var tail_lengt = 25
 
 
 func _ready():
-	$Sprite.material.set_shader_param("color", Settings.theme["player_body"])
+	$Sprite2D.material.set_shader_parameter("color", Settings.theme["player_body"])
 	var tail_color = Settings.theme["player_trail"]
 	tail.gradient.set_color(1, tail_color)
 	tail_color.a = 0
