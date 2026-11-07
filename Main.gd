@@ -121,7 +121,7 @@ func set_bonus(value):
 func _load_banner():
 	if _ad_view:
 		_ad_view.destroy()
-	_ad_view = AdView.new(BANNER_ID, AdSize.BANNER, AdPosition.Values.BOTTOM)
+	_ad_view = AdView.new(BANNER_ID, AdSize.BANNER, AdPosition.BOTTOM)
 	_ad_view.load_ad(AdRequest.new())
 
 func _load_interstitial():

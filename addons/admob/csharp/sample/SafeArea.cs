@@ -27,8 +27,10 @@ using PoingStudios.AdMob.Sample;
 
 public partial class SafeArea : MarginContainer
 {
-	private float _ad_margin_top = 0.0f;
-	private float _ad_margin_bottom = 0.0f;
+	private AdView _activeAdView = null;
+	private NativeOverlayAd _activeNativeAd = null;
+	private AdPosition _customAdPos = null;
+	private float _customAdHeight = 0f;
 
 	public override void _Ready()
 	{
@@ -39,48 +41,49 @@ public partial class SafeArea : MarginContainer
 
 	public void UpdateAdOverlap(AdView adView)
 	{
-		ResetAdOverlap();
+		_activeAdView = adView;
+		_activeNativeAd = null;
+		_customAdPos = null;
+		_customAdHeight = 0f;
+		UpdateSafeArea();
+	}
 
-		if (adView == null)
-		{
-			return;
-		}
+	public void UpdateAdOverlapNative(NativeOverlayAd nativeAd, AdPosition pos)
+	{
+		_activeAdView = null;
+		_activeNativeAd = nativeAd;
+		_customAdPos = pos;
+		_customAdHeight = 0f;
+		UpdateSafeArea();
+	}
 
-		var pos = adView.Position;
-		var height = (float)adView.GetHeightInPixels();
-
-		// Mapping AdPosition enum values to top/bottom margins
-		if (pos == AdPosition.Top || pos == AdPosition.TopLeft || pos == AdPosition.TopRight)
-		{
-			_ad_margin_top = height;
-		}
-		else if (pos == AdPosition.Bottom || pos == AdPosition.BottomLeft || pos == AdPosition.BottomRight)
-		{
-			_ad_margin_bottom = height;
-		}
-
+	public void UpdateAdOverlapCustom(AdPosition pos, float heightPixels)
+	{
+		_activeAdView = null;
+		_activeNativeAd = null;
+		_customAdPos = pos;
+		_customAdHeight = heightPixels;
 		UpdateSafeArea();
 	}
 
 	public void ResetAdOverlap()
 	{
-		_ad_margin_top = 0.0f;
-		_ad_margin_bottom = 0.0f;
+		_activeAdView = null;
+		_activeNativeAd = null;
+		_customAdPos = null;
+		_customAdHeight = 0f;
 		UpdateSafeArea();
 	}
 
 	private void UpdateSafeArea()
 	{
-		// Only apply safe area on mobile platforms
-		var platform = OS.GetName();
-		if (platform != "iOS" && platform != "Android")
-		{
-			ApplyMargins(0, 0, 0, 0);
-			return;
-		}
-
 		var safeArea = DisplayServer.GetDisplaySafeArea();
 		var windowSize = DisplayServer.WindowGetSize();
+		var viewportSize = GetViewport().GetVisibleRect().Size;
+
+		// Apply safe area and ad margins
+		var platform = OS.GetName();
+		bool isMobile = platform == "iOS" || platform == "Android";
 
 		if (windowSize.X == 0 || windowSize.Y == 0)
 		{
@@ -88,21 +91,67 @@ public partial class SafeArea : MarginContainer
 		}
 
 		// Scale factor calculation to convert physical pixels to logical UI pixels
-		var viewportSize = GetViewport().GetVisibleRect().Size;
 		var scaleFactor = viewportSize.Y / (float)windowSize.Y;
 
+		if (float.IsNaN(scaleFactor) || float.IsInfinity(scaleFactor) || scaleFactor <= 0.0f)
+		{
+			scaleFactor = 1.0f;
+		}
+
+		float adMarginTop = 0f;
+		float adMarginBottom = 0f;
+
+		AdPosition.Values? pos = null;
+		float height = 0f;
+
+		if (_activeAdView != null)
+		{
+			pos = _activeAdView.Position.Value;
+			height = (float)_activeAdView.GetHeightInPixels();
+		}
+		else if (_activeNativeAd != null)
+		{
+			pos = _customAdPos?.Value;
+			height = (float)_activeNativeAd.GetTemplateHeightInPixels();
+		}
+		else if (_customAdPos != null)
+		{
+			pos = _customAdPos.Value;
+			height = _customAdHeight;
+		}
+
+		if (pos != null)
+		{
+			if (pos == AdPosition.Values.Top || pos == AdPosition.Values.TopLeft || pos == AdPosition.Values.TopRight)
+			{
+				adMarginTop = height;
+			}
+			else if (pos == AdPosition.Values.Bottom || pos == AdPosition.Values.BottomLeft || pos == AdPosition.Values.BottomRight)
+			{
+				adMarginBottom = height;
+			}
+		}
+
 		// DisplayServer returns physical screen coordinates for the safe area
-		var safeTop = (float)safeArea.Position.Y;
-		var safeLeft = (float)safeArea.Position.X;
-		var safeBottom = (float)(windowSize.Y - (safeArea.Position.Y + safeArea.Size.Y));
-		var safeRight = (float)(windowSize.X - (safeArea.Position.X + safeArea.Size.X));
+		var safeTop = 0f;
+		var safeLeft = 0f;
+		var safeBottom = 0f;
+		var safeRight = 0f;
+
+		if (isMobile)
+		{
+			safeTop = (float)safeArea.Position.Y;
+			safeLeft = (float)safeArea.Position.X;
+			safeBottom = (float)(windowSize.Y - (safeArea.Position.Y + safeArea.Size.Y));
+			safeRight = (float)(windowSize.X - (safeArea.Position.X + safeArea.Size.X));
+		}
 
 		// Apply final margins scaled to the viewport
 		ApplyMargins(
-			(safeTop + _ad_margin_top) * scaleFactor,
-			safeLeft * scaleFactor,
-			(safeBottom + _ad_margin_bottom) * scaleFactor,
-			safeRight * scaleFactor
+			Mathf.Max(0f, (safeTop + adMarginTop) * scaleFactor),
+			Mathf.Max(0f, safeLeft * scaleFactor),
+			Mathf.Max(0f, (safeBottom + adMarginBottom) * scaleFactor),
+			Mathf.Max(0f, safeRight * scaleFactor)
 		);
 	}
 

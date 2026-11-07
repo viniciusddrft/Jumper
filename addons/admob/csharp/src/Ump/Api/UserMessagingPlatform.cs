@@ -34,13 +34,18 @@ namespace PoingStudios.AdMob.Ump.Api
 
         public static ConsentInformation ConsentInformation { get; } = new ConsentInformation();
 
+        public static ConsentForm ActiveConsentForm { get; set; }
+
         private static Action<ConsentForm> _onLoadSuccessCallback;
         private static Action<FormError> _onLoadFailureCallback;
+        private static Action<FormError> _onPrivacyOptionsFormDismissedCallback;
 
         private static readonly Callable _onLoadSuccessCallable =
             Callable.From<int>(OnConsentFormLoadSuccess);
         private static readonly Callable _onLoadFailureCallable =
             Callable.From<Dictionary>(OnConsentFormLoadFailure);
+        private static readonly Callable _onPrivacyOptionsFormDismissedCallable =
+            Callable.From<Dictionary>(OnPrivacyOptionsFormDismissed);
 
         public static void LoadConsentForm(
             Action<ConsentForm> onSuccess = null,
@@ -58,6 +63,17 @@ namespace PoingStudios.AdMob.Ump.Api
                 _onLoadFailureCallable, (uint)GodotObject.ConnectFlags.OneShot);
         }
 
+        public static void ShowPrivacyOptionsForm(Action<FormError> onPrivacyOptionsFormDismissed = null)
+        {
+            if (_plugin == null) return;
+
+            _onPrivacyOptionsFormDismissedCallback = onPrivacyOptionsFormDismissed ?? ((_) => { });
+
+            _plugin.Call("show_privacy_options_form");
+            SafeConnect(_plugin, "on_privacy_options_form_dismissed_listener",
+                _onPrivacyOptionsFormDismissedCallable, (uint)GodotObject.ConnectFlags.OneShot);
+        }
+
         private static void OnConsentFormLoadSuccess(int uid)
         {
             Callable.From(() => _onLoadSuccessCallback?.Invoke(new ConsentForm(uid))).CallDeferred();
@@ -67,6 +83,12 @@ namespace PoingStudios.AdMob.Ump.Api
         {
             var error = FormError.Create(errorDict);
             Callable.From(() => _onLoadFailureCallback?.Invoke(error)).CallDeferred();
+        }
+
+        private static void OnPrivacyOptionsFormDismissed(Dictionary errorDict)
+        {
+            var error = errorDict.Count > 0 ? FormError.Create(errorDict) : null;
+            Callable.From(() => _onPrivacyOptionsFormDismissedCallback?.Invoke(error)).CallDeferred();
         }
     }
 }

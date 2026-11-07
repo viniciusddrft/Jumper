@@ -12,6 +12,10 @@ config_version=5
 
 general/updates_per_second=100
 
+[admob]
+
+general/android/app_id="ca-app-pub-3443422868739312~2600782108"
+
 [animation]
 
 compatibility/default_parent_skeleton_in_mesh_instance_3d=true
@@ -21,7 +25,7 @@ compatibility/default_parent_skeleton_in_mesh_instance_3d=true
 config/name="projectGame"
 config/tags=PackedStringArray("projects")
 run/main_scene="res://Main.tscn"
-config/features=PackedStringArray("4.6")
+config/features=PackedStringArray("4.7")
 boot_splash/bg_color=Color(0.12549, 0.12549, 0.12549, 1)
 boot_splash/image="res://ic_launcher/res/mipmap-xxxhdpi/ic_launcher_adaptive_fore.png"
 config/icon="res://icon.png"

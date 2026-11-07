@@ -3,15 +3,29 @@
 [ext_resource type="Script" uid="uid://cndg5n6fmx0a6" path="res://addons/admob/gdscript/sample/tabs/Ump.gd" id="1_pyoth"]
 
 [node name="UMP" type="VBoxContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 15
 script = ExtResource("1_pyoth")
 
 [node name="GetConsentStatus" type="Button" parent="."]
+custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
-text = "GetConsentStatus"
+text = "GAD_GetConsentStatus"
 
 [node name="ResetConsentInformation" type="Button" parent="."]
+custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
-text = "ResetConsentInformation"
+text = "GAD_ResetConsentInformation"
+
+[node name="ShowPrivacyOptionsForm" type="Button" parent="."]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+text = "GAD_ShowPrivacyOptionsForm"
 
 [connection signal="pressed" from="GetConsentStatus" to="." method="_on_get_consent_status_pressed"]
 [connection signal="pressed" from="ResetConsentInformation" to="." method="_on_reset_consent_information_pressed"]
+[connection signal="pressed" from="ShowPrivacyOptionsForm" to="." method="_on_show_privacy_options_form_pressed"]

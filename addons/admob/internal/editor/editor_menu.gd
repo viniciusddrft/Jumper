@@ -33,6 +33,7 @@ const IOSHandler := preload("res://addons/admob/internal/handlers/ios_handler.gd
 # UI Components
 const AndroidMenu := preload("res://addons/admob/internal/editor/components/android_menu.gd")
 const IOSMenu := preload("res://addons/admob/internal/editor/components/ios_menu.gd")
+const AIMenu := preload("res://addons/admob/internal/editor/components/ai_menu.gd")
 const DocumentsMenu := preload("res://addons/admob/internal/editor/components/documents_menu.gd")
 const HelpMenu := preload("res://addons/admob/internal/editor/components/help_menu.gd")
 const SupportMenu := preload("res://addons/admob/internal/editor/components/support_menu.gd")
@@ -42,37 +43,50 @@ const PluginVersion := preload("res://addons/admob/internal/version/plugin_versi
 
 const DEFAULT_DOWNLOAD_PATH := "res://addons/admob/downloads/"
 
-
 var _dialog_service: DialogService
 var _android_handler: AndroidHandler
 var _ios_handler: IOSHandler
+
 
 func _init(host: Node) -> void:
 	super._init()
 
 	# Initialize Dialog Service
 	_dialog_service = DialogService.new()
-	
+
 	# Initialize Handlers
 	_android_handler = AndroidHandler.new(DownloadService.new(host), _dialog_service)
 	_ios_handler = IOSHandler.new(DownloadService.new(host), _dialog_service)
-	
-	_android_handler.check_dependencies()
-	_ios_handler.check_dependencies()
-	
+
+	if DisplayServer.get_name() != "headless":
+		_android_handler.check_dependencies()
+		_ios_handler.check_dependencies()
+
 	_setup_menu()
+
 
 func _setup_menu() -> void:
 	# Add Submenus
 	_add_submenu(AndroidMenu.new(_android_handler))
 	_add_submenu(IOSMenu.new(_ios_handler))
+	_add_submenu(AIMenu.new(_dialog_service))
 	_add_submenu(DocumentsMenu.new())
 	_add_submenu(HelpMenu.new())
 	_add_submenu(SupportMenu.new())
 
 	# Add Main Items
-	add_menu_item("Downloads Folder", func(): OS.shell_open(str("file://", ProjectSettings.globalize_path(DEFAULT_DOWNLOAD_PATH))))
-	add_menu_item("GitHub", func(): OS.shell_open("https://github.com/poingstudios/godot-admob-plugin/tree/" + PluginVersion.current))
+	add_menu_item(
+		"Downloads Folder",
+		func(): OS.shell_open(str("file://", ProjectSettings.globalize_path(DEFAULT_DOWNLOAD_PATH)))
+	)
+	add_menu_item(
+		"GitHub",
+		func():
+			OS.shell_open(
+				"https://github.com/poingstudios/godot-admob-plugin/tree/" + PluginVersion.current
+			)
+	)
+
 
 func _add_submenu(menu: PopupMenu) -> void:
 	add_child(menu)
