@@ -33,6 +33,8 @@ config/icon="res://icon.png"
 [autoload]
 
 Settings="*res://settings.gd"
+GodotPlayGameServices="*res://addons/GodotPlayGameServices/scripts/autoloads/godot_play_game_services.gd"
+PlayGames="*res://play_games.gd"
 
 [debug]
 
@@ -48,7 +50,7 @@ window/handheld/orientation=1
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/admob/plugin.cfg")
+enabled=PackedStringArray("res://addons/admob/plugin.cfg", "res://addons/GodotPlayGameServices/plugin.cfg")
 
 [input_devices]
 

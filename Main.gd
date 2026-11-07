@@ -86,6 +86,7 @@ func new_game():
 	new_highscore = false
 	_continue_used = false
 	_jumps_landed = 0
+	PlayGames.on_game_started()
 	self.score = 0
 	self.bonus = 0
 	num_circles = 0
@@ -137,6 +138,8 @@ func _on_Jumper_captured(object):
 	$Camera2D.position = object.position
 	object.capture(player)
 	_jumps_landed += 1
+	if _jumps_landed >= 2:
+		PlayGames.on_jump_landed()
 	call_deferred("spawn_circle")
 	self.score += 1 * bonus
 	self.bonus += 1
@@ -147,10 +150,12 @@ func _on_Jumper_captured(object):
 		if level == 10:
 			Settings.circles_per_level = 5
 		$HUD.show_message("Leve %s" % str(level))
+		PlayGames.on_level_changed(level)
 	
 func set_score(value):
 	$HUD.update_score(score, value)
 	score = value
+	PlayGames.on_score_changed(score)
 	if score > highscore and ! new_highscore:
 		$HUD.show_message("New Record!")
 		new_highscore = true
@@ -161,6 +166,7 @@ func _on_Jumper_died():
 		highscore = score
 		save_score()
 	get_tree().call_group("circles", "implode")
+	PlayGames.submit_score(score)
 	var can_continue := _can_offer_continue()
 	$Screens.game_over(score, highscore, can_continue)
 	$HUD.hide()
@@ -194,6 +200,7 @@ func fade_music():
 func set_bonus(value):
 	bonus = value
 	$HUD.update_bonus(bonus)
+	PlayGames.on_bonus_changed(bonus)
 
 func _load_banner():
 	if _ad_view:

@@ -1,5 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://dmdjl3asa1itq"]
 
+[ext_resource type="FontFile" path="res://assets/fonts/Xolonium-Regular.ttf" id="font_x"]
 [ext_resource type="Texture2D" uid="uid://c6a5xi02qpjr" path="res://assets/buttons/right.png" id="1"]
 [ext_resource type="PackedScene" path="res://UI/BaseScreen.tscn" id="2"]
 [ext_resource type="Texture2D" uid="uid://bwk000htldili" path="res://assets/buttons/gear.png" id="3"]
@@ -33,3 +34,15 @@ layout_mode = 2
 [node name="Buttons3" parent="MarginContainer/VBoxContainer" index="3"]
 layout_mode = 2
 
+
+[node name="Ranking" type="Button" parent="MarginContainer/VBoxContainer/Buttons2" index="0" groups=["buttons"]]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("font_x")
+theme_override_font_sizes/font_size = 36
+text = "Ranking"
+
+[node name="Trophies" type="Button" parent="MarginContainer/VBoxContainer/Buttons2" index="1" groups=["buttons"]]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("font_x")
+theme_override_font_sizes/font_size = 36
+text = "Trophies"

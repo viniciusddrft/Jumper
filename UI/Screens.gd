@@ -12,6 +12,7 @@ var current_screen = null
 
 func _ready():
 	register_buttons()
+	$TitleScreen/MarginContainer/VBoxContainer/Buttons2.visible = PlayGames.is_available()
 	change_screen($TitleScreen)
 	
 func register_buttons():
@@ -38,6 +39,10 @@ func _on_button_pressed(button):
 			change_screen($SettingsScreen)
 		"About":
 			change_screen($AboutScreen)
+		"Ranking":
+			PlayGames.show_leaderboard()
+		"Trophies":
+			PlayGames.show_achievements()
 		"Continue":
 			emit_signal("continue_requested")
 		"Privacy":
