@@ -15,7 +15,7 @@ const BANNER_ID = "ca-app-pub-3443422868739312/1567736189"
 const INTERSTITIAL_ID = "ca-app-pub-3443422868739312/6903823343"
 # Bloco de anuncio "Premiado" (rewarded) criado no AdMob. Vazio = recurso
 # "continuar" desligado no build de release.
-const REWARDED_ID = ""
+const REWARDED_ID = "ca-app-pub-3443422868739312/8103805897"
 const REWARDED_TEST_ID = "ca-app-pub-3940256099942544/5224354917"
 var is_mobile = OS.get_name() in ["Android", "iOS"]
 var _interstitial_ad: InterstitialAd
