@@ -55,6 +55,14 @@ func is_available() -> bool:
 	return _available
 
 
+func has_leaderboard() -> bool:
+	return _available and LEADERBOARD_HIGHSCORE != ""
+
+
+func has_achievements() -> bool:
+	return _available and ACHIEVEMENTS.values().any(func(id): return id != "")
+
+
 func _on_user_authenticated(is_authenticated: bool) -> void:
 	_authenticated = is_authenticated
 	if is_authenticated and _pending_ui.is_valid():

@@ -12,7 +12,9 @@ var current_screen = null
 
 func _ready():
 	register_buttons()
-	$TitleScreen/MarginContainer/VBoxContainer/Buttons2.visible = PlayGames.is_available()
+	var pg_buttons = $TitleScreen/MarginContainer/VBoxContainer/Buttons2
+	pg_buttons.get_node("Ranking").visible = PlayGames.has_leaderboard()
+	pg_buttons.get_node("Trophies").visible = PlayGames.has_achievements()
 	change_screen($TitleScreen)
 	
 func register_buttons():
