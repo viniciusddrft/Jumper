@@ -37,6 +37,8 @@ func _on_button_pressed(button):
 			change_screen($SettingsScreen)
 		"About":
 			change_screen($AboutScreen)
+		"Privacy":
+			UserMessagingPlatform.show_privacy_options_form(func(_error: FormError): pass)
 		"Sound":
 			Settings.enable_sound = !Settings.enable_sound
 			button.texture_normal = sound_buttons[Settings.enable_sound]
@@ -45,6 +47,9 @@ func _on_button_pressed(button):
 			Settings.enable_music = !Settings.enable_music
 			button.texture_normal = music_buttons[Settings.enable_music]
 			Settings.save_settings()
+
+func set_privacy_button_visible(visible: bool) -> void:
+	$SettingsScreen/MarginContainer/VBoxContainer/Privacy.visible = visible
 
 func change_screen(new_screen):
 	if current_screen:

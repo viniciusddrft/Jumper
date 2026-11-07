@@ -60,3 +60,16 @@ theme_override_styles/focus = SubResource("3")
 theme_override_styles/disabled = SubResource("4")
 theme_override_styles/normal = SubResource("5")
 text = "About"
+
+[node name="Privacy" type="Button" parent="MarginContainer/VBoxContainer" index="4" groups=["buttons"]]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_fonts/font = ExtResource("5")
+theme_override_font_sizes/font_size = 36
+theme_override_styles/hover = SubResource("1")
+theme_override_styles/pressed = SubResource("2")
+theme_override_styles/focus = SubResource("3")
+theme_override_styles/disabled = SubResource("4")
+theme_override_styles/normal = SubResource("5")
+text = "Privacy"

@@ -25,9 +25,44 @@ func _ready():
 	$HUD.hide()
 	$Background/ColorRect.color = Settings.theme["background"]
 	if is_mobile:
-		var listener := OnInitializationCompleteListener.new()
-		listener.on_initialization_complete = _on_ads_initialized
-		MobileAds.initialize(listener)
+		_request_consent()
+
+# Consentimento (UMP/GDPR): atualiza o status, mostra o formulario se for
+# exigido (UE/Reino Unido) e so depois inicializa os anuncios.
+func _request_consent() -> void:
+	var params := ConsentRequestParameters.new()
+	if OS.is_debug_build():
+		# So em build de debug: simula usuario na UE para testar o formulario.
+		var debug_settings := ConsentDebugSettings.new()
+		debug_settings.debug_geography = DebugGeography.Values.EEA
+		params.consent_debug_settings = debug_settings
+	UserMessagingPlatform.consent_information.update(
+		params, _on_consent_info_updated, _on_consent_info_failed
+	)
+
+func _on_consent_info_updated() -> void:
+	var info := UserMessagingPlatform.consent_information
+	if info.get_is_consent_form_available() and info.get_consent_status() == ConsentInformation.ConsentStatus.REQUIRED:
+		UserMessagingPlatform.load_consent_form(
+			func(form: ConsentForm): form.show(func(_error: FormError): _start_ads()),
+			func(_error: FormError): _start_ads()
+		)
+	else:
+		_start_ads()
+
+func _on_consent_info_failed(_error: FormError) -> void:
+	# Sem rede, por exemplo: o SDK usa o consentimento salvo da sessao anterior.
+	_start_ads()
+
+func _start_ads() -> void:
+	if _ads_ready:
+		return
+	var privacy_required := UserMessagingPlatform.consent_information.get_privacy_options_requirement_status() \
+		== ConsentInformation.PrivacyOptionsRequirementStatus.REQUIRED
+	$Screens.set_privacy_button_visible(privacy_required)
+	var listener := OnInitializationCompleteListener.new()
+	listener.on_initialization_complete = _on_ads_initialized
+	MobileAds.initialize(listener)
 
 func _on_ads_initialized(_status: InitializationStatus) -> void:
 	_ads_ready = true
