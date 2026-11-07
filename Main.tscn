@@ -28,3 +28,4 @@ stream = ExtResource("4")
 [node name="Background" parent="." instance=ExtResource("5")]
 
 [connection signal="start_game" from="Screens" to="." method="new_game"]
+[connection signal="continue_requested" from="Screens" to="." method="show_rewarded_continue"]

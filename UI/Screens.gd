@@ -1,6 +1,7 @@
 extends Node
 
 signal start_game
+signal continue_requested
 
 var sound_buttons = {true: preload("res://assets/buttons/audioOn.png"),
 					false:preload("res://assets/buttons/audioOff.png")}
@@ -37,6 +38,8 @@ func _on_button_pressed(button):
 			change_screen($SettingsScreen)
 		"About":
 			change_screen($AboutScreen)
+		"Continue":
+			emit_signal("continue_requested")
 		"Privacy":
 			UserMessagingPlatform.show_privacy_options_form(func(_error: FormError): pass)
 		"Sound":
@@ -58,7 +61,11 @@ func change_screen(new_screen):
 	if new_screen:
 		await current_screen.appear()
 	
-func game_over(score, highscore):
+func hide_for_continue() -> void:
+	change_screen(null)
+
+func game_over(score, highscore, can_continue := false):
+	$GameOverScreen/MarginContainer/VBoxContainer/Buttons2/Continue.visible = can_continue
 	var score_box = $GameOverScreen/MarginContainer/VBoxContainer/Scores
 	score_box.get_node("Score").text = "Score: %s" % score
 	score_box.get_node("Best").text = "Best: %s" % highscore

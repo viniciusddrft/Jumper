@@ -13,9 +13,21 @@ var bonus = 0: set = set_bonus
 
 const BANNER_ID = "ca-app-pub-3443422868739312/1567736189"
 const INTERSTITIAL_ID = "ca-app-pub-3443422868739312/6903823343"
+# Bloco de anuncio "Premiado" (rewarded) criado no AdMob. Vazio = recurso
+# "continuar" desligado no build de release.
+const REWARDED_ID = ""
+const REWARDED_TEST_ID = "ca-app-pub-3940256099942544/5224354917"
 var is_mobile = OS.get_name() in ["Android", "iOS"]
 var _interstitial_ad: InterstitialAd
 var _ad_view: AdView
+var _rewarded_ad: RewardedAd
+var _continue_used := false
+var _jumps_landed := 0  # capturas na partida (a 1a e o circulo inicial)
+var _earned_continue := false
+# Regras do interstitial: nao mostrar no inicio da sessao nem em sequencia.
+const INTERSTITIAL_MIN_INTERVAL_MS = 90 * 1000
+const INTERSTITIAL_SESSION_GRACE_MS = 120 * 1000
+var _last_fullscreen_ad_ms := 0
 var death_count = 0
 const ADS_EVERY_N_DEATHS = 5
 var _ads_ready := false
@@ -68,23 +80,43 @@ func _on_ads_initialized(_status: InitializationStatus) -> void:
 	_ads_ready = true
 	_load_banner()
 	_load_interstitial()
+	_load_rewarded()
 	
 func new_game():
 	new_highscore = false
+	_continue_used = false
+	_jumps_landed = 0
 	self.score = 0
 	self.bonus = 0
 	num_circles = 0
 	level = 1
 	$HUD.update_score(score, 0)
 	$Camera2D.position = $StartPosition.position
+	_spawn_player($StartPosition.position)
+	$HUD.show()
+	$HUD.show_message("GO!")
+	_start_round()
+
+# Continua a partida de onde parou (depois de assistir o anuncio premiado).
+func continue_game():
+	_continue_used = true
+	var pos = $Camera2D.position
+	# Zera o bonus para a recaptura nao somar pontos.
+	self.bonus = 0
+	_spawn_player(pos)
+	$HUD.show()
+	$HUD.show_message("GO!")
+	_start_round()
+
+func _spawn_player(pos: Vector2) -> void:
 	player = Jumper.instantiate()
-	player.position = $StartPosition.position
+	player.position = pos
 	add_child(player)
 	player.connect("captured", Callable(self, "_on_Jumper_captured"))
 	player.connect("died", Callable(self, "_on_Jumper_died"))
-	spawn_circle($StartPosition.position)
-	$HUD.show()
-	$HUD.show_message("GO!")
+	spawn_circle(pos)
+
+func _start_round() -> void:
 	if _ad_view:
 		_ad_view.hide()
 	if Settings.enable_music:
@@ -104,6 +136,7 @@ func spawn_circle(_position=null):
 func _on_Jumper_captured(object):
 	$Camera2D.position = object.position
 	object.capture(player)
+	_jumps_landed += 1
 	call_deferred("spawn_circle")
 	self.score += 1 * bonus
 	self.bonus += 1
@@ -128,13 +161,16 @@ func _on_Jumper_died():
 		highscore = score
 		save_score()
 	get_tree().call_group("circles", "implode")
-	$Screens.game_over(score, highscore)
+	var can_continue := _can_offer_continue()
+	$Screens.game_over(score, highscore, can_continue)
 	$HUD.hide()
 	if Settings.enable_music:
 		fade_music()
 	if _ad_view:
 		_ad_view.show()
-	_show_interstitial()
+	# Quando o "continuar" e oferecido, nao interrompe com interstitial.
+	if !can_continue:
+		_show_interstitial()
 		
 func load_score():
 	var f = FileAccess.open(Settings.score_file, FileAccess.READ)
@@ -184,9 +220,59 @@ func _show_interstitial():
 	if !is_mobile:
 		return
 	death_count += 1
-	if death_count >= ADS_EVERY_N_DEATHS:
-		death_count = 0
-		if _interstitial_ad:
-			_interstitial_ad.show()
-		else:
-			_load_interstitial()
+	if death_count < ADS_EVERY_N_DEATHS:
+		return
+	var now := Time.get_ticks_msec()
+	if now < INTERSTITIAL_SESSION_GRACE_MS:
+		return
+	if _last_fullscreen_ad_ms > 0 and now - _last_fullscreen_ad_ms < INTERSTITIAL_MIN_INTERVAL_MS:
+		return
+	death_count = 0
+	if _interstitial_ad:
+		_last_fullscreen_ad_ms = now
+		_interstitial_ad.show()
+	else:
+		_load_interstitial()
+
+func _rewarded_unit_id() -> String:
+	return REWARDED_TEST_ID if OS.is_debug_build() else REWARDED_ID
+
+func _can_offer_continue() -> bool:
+	return is_mobile and !_continue_used and _rewarded_ad != null and _jumps_landed >= 2
+
+func _load_rewarded():
+	if !_ads_ready or _rewarded_unit_id() == "":
+		return
+	if _rewarded_ad:
+		_rewarded_ad.destroy()
+		_rewarded_ad = null
+	var callback = RewardedAdLoadCallback.new()
+	callback.on_ad_loaded = func(ad: RewardedAd):
+		_rewarded_ad = ad
+		_rewarded_ad.full_screen_content_callback.on_ad_dismissed_full_screen_content = func():
+			_on_rewarded_closed()
+		_rewarded_ad.full_screen_content_callback.on_ad_failed_to_show_full_screen_content = func(_error: AdError):
+			_on_rewarded_closed()
+	callback.on_ad_failed_to_load = func(_error: LoadAdError):
+		_rewarded_ad = null
+	RewardedAdLoader.new().load(_rewarded_unit_id(), AdRequest.new(), callback)
+
+# Chamado pelo botao "Continue" da tela de Game Over.
+func show_rewarded_continue():
+	if !_rewarded_ad:
+		return
+	_earned_continue = false
+	var listener := OnUserEarnedRewardListener.new()
+	listener.on_user_earned_reward = func(_item: RewardedItem):
+		_earned_continue = true
+	_rewarded_ad.show(listener)
+
+func _on_rewarded_closed():
+	_last_fullscreen_ad_ms = Time.get_ticks_msec()
+	_rewarded_ad.destroy()
+	_rewarded_ad = null
+	_load_rewarded()
+	if _earned_continue:
+		_earned_continue = false
+		$Screens.hide_for_continue()
+		continue_game()
