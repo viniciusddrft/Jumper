@@ -3,21 +3,21 @@ extends Node
 ## Fora do Android, ou com IDs vazios, todas as chamadas sao ignoradas.
 
 # IDs gerados no Play Console (Servicos relacionados ao Play Games).
-const LEADERBOARD_HIGHSCORE := ""
+const LEADERBOARD_HIGHSCORE := "CgkI6fTOpu0REAIQAw"
 
 const ACHIEVEMENTS := {
-	"first_jump": "", # Capture o primeiro circulo
-	"score_10": "",
-	"score_50": "",
-	"score_100": "",
-	"score_200": "",
-	"level_5": "",
-	"level_10": "",
-	"level_20": "",
-	"combo_5": "",
-	"combo_10": "",
-	"persistent": "", # Incremental: 50 partidas
-	"addicted": "", # Incremental: 200 partidas
+	"first_jump": "CgkI6fTOpu0REAIQBA", # Capture o primeiro circulo
+	"score_10": "CgkI6fTOpu0REAIQBQ",
+	"score_50": "CgkI6fTOpu0REAIQBg",
+	"score_100": "CgkI6fTOpu0REAIQBw",
+	"score_200": "CgkI6fTOpu0REAIQCA",
+	"level_5": "CgkI6fTOpu0REAIQCQ",
+	"level_10": "CgkI6fTOpu0REAIQCg",
+	"level_20": "CgkI6fTOpu0REAIQCw",
+	"combo_5": "CgkI6fTOpu0REAIQDA",
+	"combo_10": "CgkI6fTOpu0REAIQDQ",
+	"persistent": "CgkI6fTOpu0REAIQDg", # Incremental: 50 partidas
+	"addicted": "CgkI6fTOpu0REAIQDw", # Incremental: 200 partidas
 }
 
 const SCORE_ACHIEVEMENTS := {10: "score_10", 50: "score_50", 100: "score_100", 200: "score_200"}
