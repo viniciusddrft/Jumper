@@ -33,7 +33,7 @@ config/icon="res://icon.png"
 [autoload]
 
 Settings="*res://settings.gd"
-GodotPlayGameServices="*res://addons/GodotPlayGameServices/scripts/autoloads/godot_play_game_services.gd"
+GodotPlayGameServices="*uid://orsyqdljajlu"
 PlayGames="*res://play_games.gd"
 
 [debug]
