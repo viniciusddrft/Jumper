@@ -18,15 +18,21 @@ var _interstitial_ad: InterstitialAd
 var _ad_view: AdView
 var death_count = 0
 const ADS_EVERY_N_DEATHS = 5
+var _ads_ready := false
 
 func _ready():
 	load_score()
 	$HUD.hide()
 	$Background/ColorRect.color = Settings.theme["background"]
 	if is_mobile:
-		MobileAds.initialize()
-		_load_banner()
-		_load_interstitial()
+		var listener := OnInitializationCompleteListener.new()
+		listener.on_initialization_complete = _on_ads_initialized
+		MobileAds.initialize(listener)
+
+func _on_ads_initialized(_status: InitializationStatus) -> void:
+	_ads_ready = true
+	_load_banner()
+	_load_interstitial()
 	
 func new_game():
 	new_highscore = false
@@ -125,6 +131,8 @@ func _load_banner():
 	_ad_view.load_ad(AdRequest.new())
 
 func _load_interstitial():
+	if !_ads_ready:
+		return
 	if _interstitial_ad:
 		_interstitial_ad.destroy()
 		_interstitial_ad = null
